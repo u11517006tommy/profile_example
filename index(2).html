@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>郭育安的個人作品集</title>
+    <!-- 載入 Google 思源宋體 (Noto Serif TC) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #e5d3bf;        /* 經典卡其色背景 */
+            --card-bg: #f4eae1;         /* 溫柔奶茶色卡片背景 */
+            --inner-card-bg: #fbf7f3;   /* 淺奶茶色區塊背景 */
+            --text-main: #111111;       /* 極致深黑主文字 */
+            --text-sub: #2c2c2c;        /* 深灰黑副文字 */
+            --accent-color: #8c6d53;    /* 濃醇奶茶咖啡色邊框/強調 */
+            --border-color: #cbb8a3;   /* 卡其奶茶過渡邊框色 */
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Noto Serif TC', serif;
+            line-height: 1.8;
+        }
+
+        .fullscreen-container {
+            width: 100%;
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            background-color: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-top: 6px solid var(--accent-color);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            position: relative;
+        }
+
+        header h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem; }
+        header p { font-size: clamp(0.95rem, 1.5vw, 1.15rem); color: var(--text-sub); font-weight: 600; }
+
+        /* 後台控制面板列 */
+        .admin-bar {
+            display: none; /* 預設隱藏，登入後顯示 */
+            background: #2c2c2c;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: right;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .admin-bar span { font-weight: bold; color: #e5d3bf; }
+
+        /* 按鈕樣式 */
+        .btn {
+            background-color: var(--accent-color);
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            margin-left: 5px;
+        }
+        .btn:hover { opacity: 0.9; }
+        .btn-danger { background-color: #a94442; }
+
+        .year-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .year-title {
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            font-weight: 700;
+            color: var(--text-main);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .year-title::before { content: '◆'; font-size: 0.9rem; margin-right: 0.6rem; color: var(--accent-color); }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: var(--inner-card-bg);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .project-card h3 { font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem; }
+        .project-card p { font-size: 0.95rem; color: var(--text-sub); }
+
+        .status-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+            margin-bottom: 0.8rem;
+        }
+
+        /* 編輯按鈕（僅管理者模式顯示） */
+        .admin-edit-btn {
+            display: none;
+            margin-top: 10px;
+        }
+
+        footer { text-align: center; margin-top: auto; padding: 20px; font-size: 0.85rem; }
+        .login-link { color: var(--text-sub); text-decoration: underline; cursor: pointer; }
+
+        @media (max-width: 600px) {
+            .fullscreen-container { padding: 1rem; }
+            .year-section { padding: 1.25rem; }
+            .project-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fullscreen-container">
+        
+        <!-- 後台狀態列 -->
+        <div class="admin-bar" id="adminBar">
+            <span>⚙ 管理員模式（已解鎖編輯權限）</span>
+            <div>
+                <button class="btn" onclick="saveData()">💾 儲存修改內容</button>
+                <button class="btn btn-danger" onclick="logoutAdmin()">登出後台</button>
+            </div>
+        </div>
+
+        <header>
+            <h1 id="site-title" contenteditable="false">郭育安的個人作品集</h1>
+            <p id="site-subtitle" contenteditable="false">累積與成長歷程 | 大一至大四學習紀錄</p>
+            <button class="btn admin-edit-btn" onclick="editHeader()">✎ 編輯頁首標題</button>
+        </header>
+
+        <!-- 大一區塊 -->
+        <section class="year-section">
+            <h2 class="year-title">大一：基礎奠定與探索</h2>
+            <div class="project-grid">
+                <div class="project-card" id="card-1">
+                    <span class="status-badge">進行中</span>
+                    <h3 class="card-title">基礎程式設計與網頁應用</h3>
+                    <p class="card-desc">學習 HTML/CSS 基礎與 Git 版本控制，完成個人作品集網站雛型發佈。</p>
+                    <button class="btn admin-edit-btn" onclick="editCard('card-1')">✎ 編輯卡片內容</button>
+                </div>
+                <div class="project-card" id="card-2">
+                    <span class="status-badge">規劃中</span>
+                    <h3 class="card-title">基礎程式語言專題</h3>
+                    <p class="card-desc">利用基礎程式邏輯進行小型專題實作，累積寫程式的基礎感受。</p>
+                    <button class="btn admin-edit-btn" onclick="editCard('card-2')">✎ 編輯卡片內容</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 大二區塊 -->
+        <section class="year-section">
+            <h2 class="year-title">大二：核心技能與進階應用</h2>
+            <div class="project-grid">
+                <div class="project-card" id="card-3">
+                    <span class="status-badge">未開始</span>
+                    <h3 class="card-title">領域核心專題（預留）</h3>
+                    <p class="card-desc">深化專業領域核心技能，訓練獨立思考與解決問題的能力。</p>
+                    <button class="btn admin-edit-btn" onclick="editCard('card-3')">✎ 編輯卡片內容</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 大三區塊 -->
+        <section class="year-section">
+            <h2 class="year-title">大三：實務整合與跨域挑戰</h2>
+            <div class="project-grid">
+                <div class="project-card" id="card-4">
+                    <span class="status-badge">未開始</span>
+                    <h3 class="card-title">畢業專題 / 代表作計畫</h3>
+                    <p class="card-desc">針對特定議題進行系統性的研究與開發，打造極具代表性的作品。</p>
+                    <button class="btn admin-edit-btn" onclick="editCard('card-4')">✎ 編輯卡片內容</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 大四區塊 -->
+        <section class="year-section">
+            <h2 class="year-title">大四：職務精進與總整產出</h2>
+            <div class="project-grid">
+                <div class="project-card" id="card-5">
+                    <span class="status-badge">未開始</span>
+                    <h3 class="card-title">完整專業作品集 (Portfolio)</h3>
+                    <p class="card-desc">精緻化四年所有專題成果，呈現能夠直接對接職場與業主的高品質作品集。</p>
+                    <button class="btn admin-edit-btn" onclick="editCard('card-5')">✎ 編輯卡片內容</button>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <span class="login-link" onclick="loginAdmin()">🔒 管理者登入 (後台入口)</span>
+        </footer>
+    </div>
+
+    <script>
+        // 預設密碼：1234
+        const ADMIN_PWD = "1234";
+        let isAdmin = false;
+
+        // 頁面載入時讀取儲存的資料
+        window.onload = function() {
+            loadSavedData();
+        };
+
+        // 登入後台
+        function loginAdmin() {
+            const pwd = prompt("請輸入管理者密碼（預設為 1234）：");
+            if (pwd === ADMIN_PWD) {
+                isAdmin = true;
+                alert("登入成功！已解鎖後台編輯權限。");
+                updateAdminView();
+            } else if (pwd !== null) {
+                alert("密碼錯誤！");
+            }
+        }
+
+        // 登出後台
+        function logoutAdmin() {
+            isAdmin = false;
+            updateAdminView();
+            alert("已登出管理者模式。");
+        }
+
+        // 切換後台按鈕顯示狀態
+        function updateAdminView() {
+            const adminBar = document.getElementById('adminBar');
+            const editBtns = document.querySelectorAll('.admin-edit-btn');
+            
+            if (isAdmin) {
+                adminBar.style.display = 'flex';
+                editBtns.forEach(btn => btn.style.display = 'inline-block');
+            } else {
+                adminBar.style.display = 'none';
+                editBtns.forEach(btn => btn.style.display = 'none');
+            }
+        }
+
+        // 編輯頁首
+        function editHeader() {
+            const title = prompt("請輸入網站主標題：", document.getElementById('site-title').innerText);
+            if (title) document.getElementById('site-title').innerText = title;
+
+            const subtitle = prompt("請輸入副標題：", document.getElementById('site-subtitle').innerText);
+            if (subtitle) document.getElementById('site-subtitle').innerText = subtitle;
+        }
+
+        // 編輯卡片
+        function editCard(cardId) {
+            const card = document.getElementById(cardId);
+            const titleEl = card.querySelector('.card-title');
+            const descEl = card.querySelector('.card-desc');
+
+            const newTitle = prompt("請輸入新的專題標題：", titleEl.innerText);
+            if (newTitle !== null) titleEl.innerText = newTitle;
+
+            const newDesc = prompt("請輸入新的專題描述：", descEl.innerText);
+            if (newDesc !== null) descEl.innerText = newDesc;
+        }
+
+        // 儲存修改到瀏覽器內存 (localStorage)
+        function saveData() {
+            const data = {
+                title: document.getElementById('site-title').innerText,
+                subtitle: document.getElementById('site-subtitle').innerText,
+                cards: {}
+            };
+
+            document.querySelectorAll('.project-card').forEach(card => {
+                data.cards[card.id] = {
+                    title: card.querySelector('.card-title').innerText,
+                    desc: card.querySelector('.card-desc').innerText
+                };
+            });
+
+            localStorage.setItem('portfolio_data', JSON.stringify(data));
+            alert("修改已儲存！");
+        }
+
+        // 載入已儲存資料
+        function loadSavedData() {
+            const saved = localStorage.getItem('portfolio_data');
+            if (!saved) return;
+
+            const data = JSON.parse(saved);
+            if (data.title) document.getElementById('site-title').innerText = data.title;
+            if (data.subtitle) document.getElementById('site-subtitle').innerText = data.subtitle;
+
+            if (data.cards) {
+                for (let cardId in data.cards) {
+                    const card = document.getElementById(cardId);
+                    if (card) {
+                        card.querySelector('.card-title').innerText = data.cards[cardId].title;
+                        card.querySelector('.card-desc').innerText = data.cards[cardId].desc;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
