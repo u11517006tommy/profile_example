@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>個人學習歷程作品集</title>
+    <title>郭育安的個人學習歷程作品集</title>
     <!-- 載入 Google 思源宋體 (Noto Serif TC) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -108,6 +108,17 @@
             border: 1px solid var(--border-color);
             padding: 1.5rem;
             border-radius: 6px;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        /* 讓可點擊的卡片在懸浮時有互動反饋 */
+        a.project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+            border-color: var(--accent-color);
         }
 
         .project-card h3 {
@@ -161,6 +172,13 @@
         <section class="year-section">
             <h2 class="year-title">大一：基礎奠定與探索</h2>
             <div class="project-grid">
+                <!-- 新增的可點擊卡片 -->
+                <a href="week02.html" class="project-card">
+                    <span class="status-badge">最新作業</span>
+                    <h3>數位科技概論｜第二週教學內容與作業 ➔</h3>
+                    <p>包含 GitHub 檔案操作、HTML 活動 01–04（文字、多媒體、清單表格、表單）及 CSS 活動 05–09 講義與作業規範。</p>
+                </a>
+
                 <div class="project-card">
                     <span class="status-badge">進行中</span>
                     <h3>基礎程式設計與網頁應用</h3>
