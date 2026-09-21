@@ -20,6 +20,10 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
+        html {
+            scroll-behavior: smooth; /* 點擊跳轉時平滑捲動 */
+        }
+
         body {
             width: 100%;
             min-height: 100vh;
@@ -73,6 +77,36 @@
             font-weight: 600;
         }
 
+        /* 快速跳轉導覽列樣式 */
+        .nav-jump {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 1.2rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .nav-jump-btn {
+            display: inline-block;
+            padding: 0.4rem 0.9rem;
+            background-color: var(--inner-card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            color: var(--text-sub);
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .nav-jump-btn:hover {
+            background-color: var(--accent-color);
+            color: #ffffff;
+            border-color: var(--accent-color);
+        }
+
         .work-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -107,72 +141,18 @@
             border-radius: 4px;
             font-family: monospace;
             font-weight: bold;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .file-badge:hover {
+            background-color: var(--border-color);
         }
 
         .work-desc {
             font-size: 0.95rem;
             color: var(--text-sub);
-            margin-bottom: 1rem;
-        }
-
-        /* 成果展示即時外框 */
-        .preview-frame {
-            background: #ffffff;
-            border: 2px dashed var(--border-color);
-            border-radius: 6px;
-            padding: 1.5rem;
-            margin-top: 1rem;
-            color: #111111;
-        }
-
-        /* 成果呈現內部微調 */
-        .preview-frame h1, .preview-frame h2, .preview-frame h3 {
-            font-family: sans-serif;
-            margin-bottom: 0.5rem;
-        }
-
-        .preview-frame table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
-        }
-
-        .preview-frame th, .preview-frame td {
-            border: 1px solid #ccc;
-            padding: 0.5rem;
-            text-align: left;
-            font-family: sans-serif;
-            font-size: 0.9rem;
-        }
-
-        .preview-frame form {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-            font-family: sans-serif;
-        }
-
-        .preview-frame label {
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        .preview-frame input[type="text"], 
-        .preview-frame select, 
-        .preview-frame textarea {
-            width: 100%;
-            padding: 0.4rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .btn-disabled {
-            padding: 0.5rem 1rem;
-            background-color: #e0e0e0;
-            color: #666;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            cursor: not-allowed;
         }
     </style>
 </head>
@@ -184,145 +164,66 @@
         <header>
             <h1>數位科技概論｜第二週課堂實作成果展示</h1>
             <p>作者：郭育安 | 包含 HTML 基礎語法練習與 CSS 網頁設計成果</p>
+            
+            <!-- 快速跳轉導覽列 -->
+            <nav class="nav-jump">
+                <a href="#work-01" class="nav-jump-btn">作業 01｜文字排版</a>
+                <a href="#work-02" class="nav-jump-btn">作業 02｜影音多媒體</a>
+                <a href="#work-03" class="nav-jump-btn">作業 03｜清單與表格</a>
+                <a href="#work-04" class="nav-jump-btn">作業 04｜互動表單</a>
+                <a href="#work-css" class="nav-jump-btn">CSS 專題成果</a>
+            </nav>
         </header>
 
         <!-- 作品 01 -->
-        <article class="work-card">
+        <article class="work-card" id="work-01">
             <div class="work-header">
                 <h2 class="work-title">作品 01｜文字層級排版：水與生活探索日</h2>
-                <span class="file-badge">01-html-text-學號.html</span>
+                <a href="01-html-text-11517006.html" class="file-badge">01-html-text-11517006.html</a>
             </div>
             <p class="work-desc">實作目標：運用文章標題階層（h1~h3）、粗體、斜體，以及化學式下標與面積上標之正確語法。</p>
-            
-            <div class="preview-frame">
-                <h1 style="font-size:1.5rem; color:#1a365d;">水與生活：小小科學探索日</h1>
-                <p>一起從生活中的水，發現科學的有趣之處。</p>
-                <h2 style="font-size:1.2rem; margin-top:0.8rem; color:#2b6cb0;">活動介紹</h2>
-                <p>這次活動適合國小中年級學生，請帶著好奇心一起參加。</p>
-                <h3 style="font-size:1rem; margin-top:0.6rem;">觀察水的樣子與名稱</h3>
-                <p>水的化學式是 <strong>H<sub>2</sub>O</strong>。</p>
-                <p>請<b>自備水壺</b>，口號是：<i>先觀察，再提問！</i>，並領取 100 cm<sup>2</sup> 觀察卡。</p>
-            </div>
         </article>
 
         <!-- 作品 02 -->
-        <article class="work-card">
+        <article class="work-card" id="work-02">
             <div class="work-header">
-                <h2 class="work-title">作品 02｜多媒體影音與圖片格式整合</h2>
-                <span class="file-badge">02-html-media-學號.zip</span>
+                <h2 class="work-title">作品 02｜影音多媒體：校園自然觀察任務卡</h2>
+                <a href="02-html-media-11517006.html" class="file-badge">02-html-media-11517006.html</a>
             </div>
             <p class="work-desc">實作目標：嵌入帶有 alt 屬性的圖片、透明背景 PNG、SVG 向量圖、提示聲音檔與影片元件。</p>
-            
-            <div class="preview-frame" style="text-align: center;">
-                <p style="text-align:left; font-weight:bold; margin-bottom:0.5rem;">[ 影音與多媒體展示 ]</p>
-                <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; align-items:center;">
-                    <div style="background:#f0f0f0; padding:1rem; border-radius:6px; min-width:150px;">
-                        <p style="font-size:0.8rem;">PNG / SVG 圖示</p>
-                        <span style="font-size:2rem;">🌸 🍃 📅</span>
-                    </div>
-                    <div style="background:#f0f0f0; padding:1rem; border-radius:6px; flex:1; min-width:200px;">
-                        <p style="font-size:0.8rem; margin-bottom:0.3rem;">音訊播放器 (&lt;audio&gt;)</p>
-                        <audio controls style="width:100%; height:32px;"></audio>
-                    </div>
-                </div>
-            </div>
         </article>
 
         <!-- 作品 03 -->
-        <article class="work-card">
+        <article class="work-card" id="work-03">
             <div class="work-header">
                 <h2 class="work-title">作品 03｜紙橋挑戰社清單與分工表格</h2>
-                <span class="file-badge">03-html-plan-學號.html</span>
+                <a href="03-html-plan-11517006.html" class="file-badge">03-html-plan-11517006.html</a>
             </div>
             <p class="work-desc">實作目標：使用無序清單 &lt;ul&gt; 列出材料、有序清單 &lt;ol&gt; 呈現步驟，並以 &lt;table&gt; 呈現人員分工。</p>
-            
-            <div class="preview-frame">
-                <h3 style="font-size:1rem; margin-bottom:0.3rem;">準備材料 (無序清單)</h3>
-                <ul style="padding-left:1.2rem; font-size:0.9rem;">
-                    <li>A4 圖畫紙 3 張</li>
-                    <li>紙膠帶 1 捲</li>
-                </ul>
-                <h3 style="font-size:1rem; margin-top:0.8rem; margin-bottom:0.3rem;">製作步驟 (有序清單)</h3>
-                <ol style="padding-left:1.2rem; font-size:0.9rem;">
-                    <li>繪製設計草圖</li>
-                    <li>折疊橋面結構並測試承重</li>
-                </ol>
-                <h3 style="font-size:1rem; margin-top:0.8rem; margin-bottom:0.3rem;">小組任務分工表</h3>
-                <table>
-                    <thead>
-                        <tr style="background:#f7fafc;">
-                            <th>角色</th>
-                            <th>負責工作</th>
-                            <th>預計成果</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>設計員</td>
-                            <td>繪製橋樑結構圖</td>
-                            <td>設計草圖一份</td>
-                        </tr>
-                        <tr>
-                            <td>測試員</td>
-                            <td>進行承重載重測試</td>
-                            <td>測試數據紀錄表</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
         </article>
 
         <!-- 作品 04 -->
-        <article class="work-card">
+        <article class="work-card" id="work-04">
             <div class="work-header">
                 <h2 class="work-title">作品 04｜放學後社團體驗互動表單</h2>
-                <span class="file-badge">04-html-form-學號.html</span>
+                <a href="04-html-form-11517006.html" class="file-badge">04-html-form-11517006.html</a>
             </div>
             <p class="work-desc">實作目標：包含文字輸入框、下拉選單、單選按鈕、複選框、多行文字備註與自訂理由欄位。</p>
-            
-            <div class="preview-frame">
-                <form onsubmit="return false;">
-                    <div>
-                        <label>1. 學生暱稱：</label>
-                        <input type="text" placeholder="例如：小明" disabled value="育安">
-                    </div>
-                    <div>
-                        <label>2. 想體驗的社團：</label>
-                        <select disabled>
-                            <option>科學手作社</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>3. 期待參與方式（複選）：</label><br>
-                        <label style="font-weight:normal;"><input type="checkbox" checked disabled> 動手做實驗</label>
-                        <label style="font-weight:normal; margin-left:0.5rem;"><input type="checkbox" checked disabled> 團隊合作</label>
-                    </div>
-                    <div>
-                        <label>4. 自訂欄位－希望開課時間理由：</label>
-                        <textarea rows="2" disabled>希望選擇放學後 16:00 的時段，剛好可以銜接家長接送時間。</textarea>
-                    </div>
-                    <div>
-                        <button type="button" class="btn-disabled" disabled>練習版，尚未開放報名</button>
-                    </div>
-                </form>
-            </div>
         </article>
 
         <!-- CSS 專題作品成果 -->
-        <article class="work-card">
+        <article class="work-card" id="work-css">
             <div class="work-header">
                 <h2 class="work-title">CSS 專題成果｜響應式與無障礙網頁設計</h2>
-                <span class="file-badge">CSS-08-學號.zip</span>
+                <span class="file-badge">CSS-08-11517006.zip</span>
             </div>
             <p class="work-desc">實作目標：結合 Flexbox / Grid 版型配置、Media Query 媒體查詢（RWD 響應式切換），並通過 WAVE 無障礙對比度檢測。</p>
-            <div class="preview-frame" style="background: var(--inner-card-bg); border-style: solid;">
-                <p style="font-weight: bold; color: var(--accent-color);">✓ 已完成修改亮點：</p>
-                <ul style="padding-left:1.2rem; font-size:0.9rem; margin-top:0.5rem;">
-                    <li>針對手機寬度（375px~600px）設置網格降階為單欄流式排版。</li>
-                    <li>修正所有表單 &lt;label&gt; 關聯性，增加鍵盤高對比焦點（focus-visible）外框。</li>
-                </ul>
-            </div>
         </article>
+
+        <!-- 底部返回按鈕 -->
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="index.html" class="back-btn">← 返回作品集首頁</a>
+        </div>
 
     </div>
 
